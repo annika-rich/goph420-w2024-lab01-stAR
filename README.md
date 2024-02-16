@@ -1,7 +1,9 @@
 # Lab Assignment 01 - Numerical Integration 
 ## GOPH420 Inversion and Parameter Estimation for Geophysicists
 *Author:* A. Richardson
+
 *Instructor:* B. Karchewski
+
 *Semester:* Winter 2024
 
 The purpose of this lab is to examine algorithm that perform numerical integration of functions for both discrete data and when the function of interest is known.
