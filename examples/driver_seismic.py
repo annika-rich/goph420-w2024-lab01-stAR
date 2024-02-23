@@ -1,6 +1,7 @@
 # Driver Script that uses discrete data to perform numerical integration
 import numpy as np
 import matplotlib.pyplot as plt
+from goph420_lab01.integration import integrate_newton
 
 def main():
     
@@ -9,7 +10,7 @@ def main():
     t = vel_data[:,0] # seconds (units)
     v = vel_data[:,1] # mm/s (units)
 
-    # Determine length of event (period, T (s))
+    # Determine length of event (period, T (s)), i.e., the integration interval
     v_max = np.abs(np.max(v))
     v_end = v_max * 0.005
     print(f"0.5% of max event velocity (mm/s) = {v_end}\nTime at end of interval = {t[436]}")
@@ -24,6 +25,11 @@ def main():
     plt.legend()
     plt.grid()
     plt.savefig('figures/raw_swave_data.png')
+    plt.close('all')
+
+    # integration using the trapezoid rule, and simpson's 1/3 and 3/8 rules
+
+    
 
 if __name__ == '__main__':
     main()

@@ -1,15 +1,18 @@
 # Utility Functions for Numerical Integration
 
+import numpy as np
+
 def integrate_newton(x, f, alg = "trap"):
     """Performs numerical integration of discrete data using Newton-Cotes rules.
 
     Parameters
     ----------
-    x:  array-like, shape(m,n)
+    x:  array-like
         contains the coordinates and values of the sample points
 
-    f:  array_like, shape(m,n)
+    f:  array_like
         contains the coordinates and values of the sample points
+        must be the same shape as x
 
     alg:    optional string flag
             indicates integration rule used in implementation
@@ -27,8 +30,36 @@ def integrate_newton(x, f, alg = "trap"):
         If the string flag contains a str other than trap or simp
         If the dimensions of x and f are incompatible
     """
+    # make sure inputs are arrays
+    x = np.array(x, dtype = float)
+    f = np.array(f, dtype = float)
 
-    def inegrate_gauss(f, lims, npts = 3):
+    # check that x and f have the same length
+    if (m := len(x)) != (n := len(f)):
+        raise ValueError(f"The length of x ({m}) is not equal to the length of f ({n}, x and f must be the same shape")
+
+    # check dimensions of inputs
+    mdim = len(x.shape)
+    ndim = len(f.shape)
+    if (mdim := len(x.shape)) != (ndim := len(f.shape)) or (mdim not in [1]):
+        raise ValueError(f"x has {mdim} dimensions and f has {ndim} dimensions, dimensions must be equal and 1D")
+
+    # check string flag
+    alg = alg.strip().lower()
+    if alg not in ["trap", "simp"]:
+        raise ValueError(f"The algorithm string flag, contains a string ({alg}) other than 'trap' or 'simp'.")
+
+    if alg == "trap":
+        def trap():
+            pass
+
+    # may need to differentiate based on sample points...
+    if alg == "simp":
+        def simp():
+            pass
+
+
+    def integrate_gauss(f, lims, npts = 3):
         """Performs numerical integration of a function using Gauss-Legendre quadrature.
 
         Parameters
