@@ -48,16 +48,49 @@ def integrate_newton(x, f, alg = "trap"):
     alg = alg.strip().lower()
     if alg not in ["trap", "simp"]:
         raise ValueError(f"The algorithm string flag, contains a string ({alg}) other than 'trap' or 'simp'.")
+    
+    # set integration limits
+    a = x[0]
+    b = x[-1]
+    # set number of segments
+    N = m - 1
+    # set subinterval spacing (length of segments)
+    delta_x = (b - a) / N
+    # set integral variable
+    integral = 0.0
+    segment = 0.0
 
     if alg == "trap":
-        def trap():
-            pass
+        # integral = (delta_x / 2) * (f[0] + 2 * np.sum(f[1:N-1]) + f[N])
+        for i, j in enumerate(N):
+            segment += (delta_x / 2) * (f[i] + f[i+1])
+            eps_a = np.abs(segment / integral)
+            integral += segment
+            # make convergence plot... 
 
     # may need to differentiate based on sample points...
     if alg == "simp":
-        def simp():
-            pass
+        # for an odd number of data points (N is divisible by 2)
+        if N % 2 == 0:
+            for i, j in enumerate(N-1):
+                # Simpson's 1/3 Rule
+                segment += (delta_x / 3) * (f[i] + 4 * f[i+1] + f[i+2])
+                esp_a = np.abs(segment / integral)
+                integral += segment
+        # for an even number of data points
+        else:
+            for i, j in enumerate(N-2):
+                # Simpson's 1/3 Rule
+                segment += (delta_x / 3) * (f[i] + 4 * f[i+1] + f[i+2])
+                esp_a = np.abs(segment / integral)
+                integral += segment
+            for i, j in enumerate(N[-2]):
+                # Simpson's 3/8th Rule
+                segment += (delta_x / 8) * (f[i] + 3 * f[i+1] + 3 * f[i+2] + f[i+3])
+                esp_a = np.abs(segment / integral)
+                integral += segment
 
+    return integral
 
     def integrate_gauss(f, lims, npts = 3):
         """Performs numerical integration of a function using Gauss-Legendre quadrature.
