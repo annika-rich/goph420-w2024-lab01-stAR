@@ -53,7 +53,7 @@ def integrate_newton(x, f, alg = "trap"):
     a = x[0]
     b = x[-1]
     # set number of segments
-    N = m - 1
+    N = m - 1 # number of segments (from m = N + 1 data points)
     # set subinterval spacing (length of segments)
     delta_x = (b - a) / N
     # set integral variable
@@ -62,9 +62,10 @@ def integrate_newton(x, f, alg = "trap"):
 
     if alg == "trap":
         # integral = (delta_x / 2) * (f[0] + 2 * np.sum(f[1:N-1]) + f[N])
-        for i, j in enumerate(N):
+        for i in range(N):
             segment += (delta_x / 2) * (f[i] + f[i+1])
-            eps_a = np.abs(segment / integral)
+            if i >= 1.0:
+                eps_a = np.abs(segment / integral)
             integral += segment
             # make convergence plot... 
 
@@ -72,23 +73,22 @@ def integrate_newton(x, f, alg = "trap"):
     if alg == "simp":
         # for an odd number of data points (N is divisible by 2)
         if N % 2 == 0:
-            for i, j in enumerate(N-1):
+            for i in range(N-1):
                 # Simpson's 1/3 Rule
                 segment += (delta_x / 3) * (f[i] + 4 * f[i+1] + f[i+2])
                 esp_a = np.abs(segment / integral)
                 integral += segment
         # for an even number of data points
         else:
-            for i, j in enumerate(N-2):
+            for i in range(N-1):
                 # Simpson's 1/3 Rule
                 segment += (delta_x / 3) * (f[i] + 4 * f[i+1] + f[i+2])
                 esp_a = np.abs(segment / integral)
                 integral += segment
-            for i, j in enumerate(N[-2]):
-                # Simpson's 3/8th Rule
-                segment += (delta_x / 8) * (f[i] + 3 * f[i+1] + 3 * f[i+2] + f[i+3])
-                esp_a = np.abs(segment / integral)
-                integral += segment
+            # Simpson's 3/8th Rule for last 
+            segment += (delta_x / 8) * (f[-4] + 3 * f[-3] + 3 * f[-2] + f[-1])
+            esp_a = np.abs(segment / integral)
+            integral += segment
 
     return integral
 
