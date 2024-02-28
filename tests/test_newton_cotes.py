@@ -1,5 +1,6 @@
 import unittest
 import numpy as np
+import scipy as sc
 
 from goph420_lab01.integration import integrate_newton
 
@@ -20,21 +21,32 @@ class TestNewtonCotesInvalidInitializers(unittest.TestCase):
 class TestTrapRuleLinear(unittest.TestCase):
     # f(x) = x
     def setUp(self):
-        self.x = [0, 0.5, 1, 1.5, 2]
-        self.f = [0, 0.5, 1, 1.5, 2]
+        self.x = [0, 1, 2]
+        self.f = [0, 1, 2]
 
     def test_value(self):
-        expected = 2.0
+        expected = sc.integrate.trapezoid(self.f, self.x)
         self.assertAlmostEqual(integrate_newton(self.x, self.f, alg = 'Trap '), expected, delta=1e-15)
 
 class TestSimpRuleQuadOdd(unittest.TestCase):
 
     def setUp(self):
-        self.x = np.arange(1, 10)
-        self.f = self.x ** 4 + 2
+        self.x = np.arange(0, 11)
+        self.f = 2 * (self.x ** 4) + 5
     
     def test_value(self):
-        expected = 1064 / 5
+        expected = sc.integrate.simpson(self.f, self.x)
+        self.assertAlmostEqual(integrate_newton(self.x, self.f, alg = 'Simp'), expected, delta = 1e-15)
+    
+
+class TestSimpRuleQuadEven(unittest.TestCase):
+
+    def setUp(self):
+        self.x = np.arange(0, 4)
+        self.f = 4 * (self.x ** 4) + 3
+    
+    def test_value(self):
+        expected = sc.integrate.simpson(self.f, self.x, even = 'simpson')
         self.assertAlmostEqual(integrate_newton(self.x, self.f, alg = 'Simp'), expected, delta=1e-15)
 
 if __name__ == "__main__":

@@ -56,40 +56,25 @@ def integrate_newton(x, f, alg = "trap"):
     N = m - 1 # number of segments (from m = N + 1 data points)
     # set subinterval spacing (length of segments)
     delta_x = (b - a) / N
-    # set integral variable
-    integral = 0.0
-    segment = 0.0
 
     if alg == "trap":
-        # integral = (delta_x / 2) * (f[0] + 2 * np.sum(f[1:N-1]) + f[N])
-        for i in range(N):
-            segment += (delta_x / 2) * (f[i] + f[i+1])
-            if i >= 1.0:
-                eps_a = np.abs(segment / integral)
-            integral += segment
+        integral = (delta_x / 2) * (f[0] + 2 * np.sum(f[1:N]) + f[N])
+        # for i in range(0, N):
+        #     segment += delta_x * ((f[i] + f[i+1]) / 2)
+        #     if i >= 1.0:
+        #         eps_a = np.abs(segment / integral)
+        #     integral += segment
             # make convergence plot... 
 
     # may need to differentiate based on sample points...
-    if alg == "simp":
-        # for an odd number of data points (N is divisible by 2)
+    elif alg == "simp":
+        # Simpson's 1/3 rule
         if N % 2 == 0:
-            for i in range(N-1):
-                # Simpson's 1/3 Rule
-                segment += (delta_x / 3) * (f[i] + 4 * f[i+1] + f[i+2])
-                esp_a = np.abs(segment / integral)
-                integral += segment
-        # for an even number of data points
+            integral = (delta_x / 3) * (f[0] + 2 * np.sum(f[2:N-1:2]) + 4 * np.sum(f[1:N:2]) + f[N])
         else:
-            for i in range(N-1):
-                # Simpson's 1/3 Rule
-                segment += (delta_x / 3) * (f[i] + 4 * f[i+1] + f[i+2])
-                esp_a = np.abs(segment / integral)
-                integral += segment
-            # Simpson's 3/8th Rule for last 
-            segment += (delta_x / 8) * (f[-4] + 3 * f[-3] + 3 * f[-2] + f[-1])
-            esp_a = np.abs(segment / integral)
-            integral += segment
-
+            integral = (delta_x / 3) * (f[0] + 2 * np.sum(f[2:N-3:2]) + 4 * np.sum(f[1:N-4:2]) + f[N-3])
+            for i in range(N - 3, N):
+                integral += (delta_x / 8) * (f[N-3] + 3 * f[N-2] + 3 * f[N-1] + f[N])
     return integral
 
     def integrate_gauss(f, lims, npts = 3):
@@ -98,7 +83,7 @@ def integrate_newton(x, f, alg = "trap"):
         Parameters
         ----------
         f:  reference to a callable object
-            e.g., funciton of class that implements the __call__() method
+            e.g., function of class that implements the __call__() method
 
         lims:   object, len == 2
                 contains the lower and upper bounds of integration (x = a, x = b)
