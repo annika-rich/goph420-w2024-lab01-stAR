@@ -31,8 +31,8 @@ class TestTrapRuleLinear(unittest.TestCase):
 class TestSimpRuleQuadOdd(unittest.TestCase):
 
     def setUp(self):
-        self.x = np.arange(0, 11)
-        self.f = 2 * (self.x ** 4) + 5
+        self.x = np.linspace(0, 11, 9)
+        self.f = 2 * (self.x ** 2) + 5
     
     def test_value(self):
         expected = sc.integrate.simpson(self.f, self.x)
@@ -42,11 +42,11 @@ class TestSimpRuleQuadOdd(unittest.TestCase):
 class TestSimpRuleQuadEven(unittest.TestCase):
 
     def setUp(self):
-        self.x = np.arange(0, 4)
-        self.f = 4 * (self.x ** 4) + 3
+        self.x = np.linspace(0, 4, 4)
+        self.f = 4 * (self.x ** 2) + 3
     
     def test_value(self):
-        expected = sc.integrate.simpson(self.f, self.x, even = 'simpson')
+        expected = sc.integrate.simpson(self.f, self.x)
         self.assertAlmostEqual(integrate_newton(self.x, self.f, alg = 'Simp'), expected, delta=1e-15)
 
 if __name__ == "__main__":

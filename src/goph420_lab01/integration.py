@@ -50,15 +50,13 @@ def integrate_newton(x, f, alg = "trap"):
         raise ValueError(f"The algorithm string flag, contains a string ({alg}) other than 'trap' or 'simp'.")
     
     # set integration limits
-    a = x[0]
-    b = x[-1]
     # set number of segments
-    N = m - 1 # number of segments (from m = N + 1 data points)
+    # number of segments (from m = N + 1 data points)
     # set subinterval spacing (length of segments)
-    delta_x = (b - a) / N
+    delta_x = x[1] - x[0]
 
     if alg == "trap":
-        integral = (delta_x / 2) * (f[0] + 2 * np.sum(f[1:N]) + f[N])
+        integral = (delta_x / 2) * (f[0] + 2 * np.sum(f[1:-1]) + f[-1])
         # for i in range(0, N):
         #     segment += delta_x * ((f[i] + f[i+1]) / 2)
         #     if i >= 1.0:
@@ -69,12 +67,13 @@ def integrate_newton(x, f, alg = "trap"):
     # may need to differentiate based on sample points...
     elif alg == "simp":
         # Simpson's 1/3 rule
-        if N % 2 == 0:
-            integral = (delta_x / 3) * (f[0] + 2 * np.sum(f[2:N-1:2]) + 4 * np.sum(f[1:N:2]) + f[N])
+        if m % 2:
+            integral = (delta_x / 3) * (f[0] + 2 * np.sum(f[2:-1:2]) + 4 * np.sum(f[1:-1:2]) + f[-1])
         else:
-            integral = (delta_x / 3) * (f[0] + 2 * np.sum(f[2:N-3:2]) + 4 * np.sum(f[1:N-4:2]) + f[N-3])
-            for i in range(N - 3, N):
-                integral += (delta_x / 8) * (f[N-3] + 3 * f[N-2] + 3 * f[N-1] + f[N])
+            integral = 0.0
+            if m > 4:
+                integral = (delta_x / 3) * (f[0] + 2 * np.sum(f[2:-4:2]) + 4 * np.sum(f[1:-4:2]) + f[-4])
+            integral += (0.375 * delta_x) * (f[-4] + 3 * f[-3] + 3 * f[-2] + f[-1])
     return integral
 
     def integrate_gauss(f, lims, npts = 3):
@@ -107,3 +106,7 @@ def integrate_newton(x, f, alg = "trap"):
             If lims[0] or lims[1] is not convertible to float
             If npts is not in [1, 2, 3, 4, 5]
         """
+
+
+    def normal_density(x, mu, sigma):
+        f = 1 / (sigma * np.sqrt(2 * np.pi)) * np.exp(-0.5 * ((x - mu)**2 / (sigma ** 2)))
