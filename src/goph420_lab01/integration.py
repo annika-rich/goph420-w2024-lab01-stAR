@@ -9,6 +9,7 @@ def integrate_newton(x, f, alg = "trap"):
     ----------
     x:  array-like
         contains the coordinates and values of the sample points
+        Sample points must be evenly spaced.
 
     f:  array_like
         contains the coordinates and values of the sample points
@@ -18,7 +19,6 @@ def integrate_newton(x, f, alg = "trap"):
             indicates integration rule used in implementation
             acceptable inputs are trap or simp
 
-
     Returns
     -------
     float, float-like
@@ -27,7 +27,7 @@ def integrate_newton(x, f, alg = "trap"):
     Raises
     ------
     ValueError:
-        If the string flag contains a str other than trap or simp
+        If the string flag contains a string other than trap or simp
         If the dimensions of x and f are incompatible
     """
     # make sure inputs are arrays
@@ -39,8 +39,6 @@ def integrate_newton(x, f, alg = "trap"):
         raise ValueError(f"The length of x ({m}) is not equal to the length of f ({n}, x and f must be the same shape")
 
     # check dimensions of inputs
-    mdim = len(x.shape)
-    ndim = len(f.shape)
     if (mdim := len(x.shape)) != (ndim := len(f.shape)) or (mdim not in [1]):
         raise ValueError(f"x has {mdim} dimensions and f has {ndim} dimensions, dimensions must be equal and 1D")
 
@@ -49,26 +47,17 @@ def integrate_newton(x, f, alg = "trap"):
     if alg not in ["trap", "simp"]:
         raise ValueError(f"The algorithm string flag, contains a string ({alg}) other than 'trap' or 'simp'.")
     
-    # set integration limits
-    # set number of segments
-    # number of segments (from m = N + 1 data points)
-    # set subinterval spacing (length of segments)
+    # set spacing between data points
     delta_x = x[1] - x[0]
 
     if alg == "trap":
         integral = (delta_x / 2) * (f[0] + 2 * np.sum(f[1:-1]) + f[-1])
-        # for i in range(0, N):
-        #     segment += delta_x * ((f[i] + f[i+1]) / 2)
-        #     if i >= 1.0:
-        #         eps_a = np.abs(segment / integral)
-        #     integral += segment
-            # make convergence plot... 
 
-    # may need to differentiate based on sample points...
     elif alg == "simp":
-        # Simpson's 1/3 rule
+        # Simpson's 1/3 rule (odd number of segments)
         if m % 2:
             integral = (delta_x / 3) * (f[0] + 2 * np.sum(f[2:-1:2]) + 4 * np.sum(f[1:-1:2]) + f[-1])
+       # Simpson's 1/3 and 3/8th rule (even number of segments)
         else:
             integral = 0.0
             if m > 4:
