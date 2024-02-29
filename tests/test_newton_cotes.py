@@ -8,15 +8,15 @@ class TestNewtonCotesInvalidInitializers(unittest.TestCase):
 
     def test_string_flag(self):
         with self.assertRaises(ValueError):
-            integrate_newton(x := np.arange(1, 10), f = np.exp(x), alg = 'quad')
+            integrate_newton(x := np.linspace(1, 10), f = np.exp(x), alg = 'quad')
     
     def test_length_inputs(self):
         with self.assertRaises(ValueError):
-            integrate_newton(x = np.arange(1, 5), f = np.arange(1, 10))
+            integrate_newton(x = np.linspace(1, 5, 3), f = np.linspace(1, 10, 10))
 
     def test_dimensions_inputs(self):
         with self.assertRaises(ValueError):
-            integrate_newton(x = np.arange(0, 10), f = np.array([[1, 2, 3], [1, 2, 3]]))
+            integrate_newton(x = np.linspace(0, 10), f = np.array([[1, 2, 3], [1, 2, 3]]))
             integrate_newton(x = np.array([[1, 2, 3], [1, 2, 3]]), f = np.array([[1, 2, 3], [1, 2, 3]]))
 class TestTrapRuleLinear(unittest.TestCase):
     # f(x) = x

@@ -65,37 +65,47 @@ def integrate_newton(x, f, alg = "trap"):
             integral += (0.375 * delta_x) * (f[-4] + 3 * f[-3] + 3 * f[-2] + f[-1])
     return integral
 
-    def integrate_gauss(f, lims, npts = 3):
-        """Performs numerical integration of a function using Gauss-Legendre quadrature.
+def integrate_gauss(f, lims, npts = 3):
+    """Performs numerical integration of a function using Gauss-Legendre quadrature.
 
-        Parameters
-        ----------
-        f:  reference to a callable object
-            e.g., function of class that implements the __call__() method
+    Parameters
+    ----------
+    f:  reference to a callable object
+        e.g., function of class that implements the __call__() method
 
-        lims:   object, len == 2
-                contains the lower and upper bounds of integration (x = a, x = b)
+    lims:   object, len == 2
+            contains the lower and upper bounds of integration (x = a, x = b)
 
-        npts:   integer, optional
-                gives number of integration points to use
-                Possible inputs are 1, 2, 3, 4, 5
+    npts:   integer, optional
+            gives number of integration points to use
+            Possible inputs are 1, 2, 3, 4, 5
 
-        Returns
-        -------
-        float, float-like
-            Provides the integral estimate
+    Returns
+    -------
+    float, float-like
+        Provides the integral estimate
 
-        Raises
-        ------
-        TypeError:
-            If f is not callable
+    Raises
+    ------
+    TypeError:
+        If f is not callable
 
-        ValueError:
-            If lims does not have len == 2
-            If lims[0] or lims[1] is not convertible to float
-            If npts is not in [1, 2, 3, 4, 5]
-        """
+    ValueError:
+        If lims does not have len == 2
+        If lims[0] or lims[1] is not convertible to float
+        If npts is not in [1, 2, 3, 4, 5]
+    """
+    if callable(f) == False:
+        raise TypeError(f"{f} is not callable, f must be a callable object such as a function of a class that implements the __call__() method.")
+    
+    if (m := len(lims)) not in [2]:
+        raise ValueError(f"Lims has length {m}, lims must be of length 2.")
+    # set upper and lower bounds of integration
+    a = float(lims[0])
+    b = float(lims[1])
 
+    if npts not in [1, 2, 3, 4, 5]:
+        raise ValueError(f"The number of integration points to use (npts) must be in [1, 2, 3, 4, 5], {npts} is not a valid argument.")
 
-    def normal_density(x, mu, sigma):
-        f = 1 / (sigma * np.sqrt(2 * np.pi)) * np.exp(-0.5 * ((x - mu)**2 / (sigma ** 2)))
+def normal_density(x, mu, sigma):
+    f = 1 / (sigma * np.sqrt(2 * np.pi)) * np.exp(-0.5 * ((x - mu)**2 / (sigma ** 2)))
