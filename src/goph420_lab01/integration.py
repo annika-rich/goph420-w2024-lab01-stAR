@@ -95,17 +95,55 @@ def integrate_gauss(f, lims, npts = 3):
         If lims[0] or lims[1] is not convertible to float
         If npts is not in [1, 2, 3, 4, 5]
     """
-    if callable(f) == False:
+    if not callable(f):
         raise TypeError(f"{f} is not callable, f must be a callable object such as a function of a class that implements the __call__() method.")
     
-    if (m := len(lims)) not in [2]:
-        raise ValueError(f"Lims has length {m}, lims must be of length 2.")
+    if len(lims) != 2:
+        raise ValueError(f"Lims has length {len(lims)}, lims must be of length 2.")
     # set upper and lower bounds of integration
     a = float(lims[0])
     b = float(lims[1])
 
     if npts not in [1, 2, 3, 4, 5]:
         raise ValueError(f"The number of integration points to use (npts) must be in [1, 2, 3, 4, 5], {npts} is not a valid argument.")
+    
+    # Get standard weights and function arguments
+    if npts in [1]:
+        s_k = [0.0]
+        c_k = [2.0]
+    elif npts in [2]:
+        s_k = [- 1 / np.sqrt(3), 1 / np.sqrt(3)]
+        c_k = [1.0, 1.0]
+    elif npts in [3]:
+        s_k = [- np.sqrt(3/5), 0.0, np.sqrt(3/5)]
+        c_k = [5/9, 8/9, 5/9]
+    elif npts in [4]:
+        s_k = [- np.sqrt(525 + 70 * np.sqrt(30)) / 35, - np.sqrt(525 - 70 * np.sqrt(30)) / 35, np.sqrt(525 - 70 * np.sqrt(30)) / 35, np.sqrt(525 + 70 * np.sqrt(30)) / 35 ]
+        c_k = [(18 - np.sqrt(30)) / 36, (18 + np.sqrt(30)) / 36, (18 + np.sqrt(30)) / 36, (18 - np.sqrt(30)) / 36]
+    elif npts in [5]:
+        s_k = [-(np.sqrt(245 + 14 * np.sqrt(70))) / 21, -(np.sqrt(245 - 14 * np.sqrt(70))) / 21, 0.0, (np.sqrt(245 - 14 * np.sqrt(70))) / 21, (np.sqrt(245 + 14 * np.sqrt(70))) / 21]
+        c_k = [(322 - 13 * np.sqrt(70)) / 900, (322 + 13 * np.sqrt(70)) / 900, 128 / 225, (322 + 13 * np.sqrt(70)) / 900, (322 - 13 * np.sqrt(70)) / 900]
+    
+    # initialize lists for actual sample points and weights
+    # compute function values at sample points
+    f_k = []
+    w_k = []
+
+    # convert standard weights and sample points to actual weights and sample points
+    for i, j in enumerate(s_k):
+        xk = (a + b) / 2 + (b - a) / 2 * s_k[i]
+        fk = f(xk)
+        f_k.append(fk)
+
+    for i, j in enumerate(c_k):
+        wk = (b - a) / 2 * c_k[i]
+        w_k.append(wk)
+
+    # perform element-wise multiplication on arrays
+    integral = np.sum(np.array(w_k) * np.array(f_k))
+    
+    return integral
+
 
 def normal_density(x, mu, sigma):
     f = 1 / (sigma * np.sqrt(2 * np.pi)) * np.exp(-0.5 * ((x - mu)**2 / (sigma ** 2)))
