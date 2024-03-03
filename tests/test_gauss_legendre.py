@@ -64,8 +64,8 @@ class TestGaussLegendreFifthOrder(unittest.TestCase):
         self.f = lambda x: 2 * x ** 5
     
     def test_npts(self):
-        expected = 4096 / 3
-        self.assertAlmostEqual(integrate_gauss(self.f, lims = [0, 4], npts = 3), expected, delta = 1e-12)
+        expected = 243
+        self.assertAlmostEqual(integrate_gauss(self.f, lims = [0, 3], npts = 3), expected, delta = 1e-13)
 
 class TestGaussLegendreSixthOrder(unittest.TestCase):
 
