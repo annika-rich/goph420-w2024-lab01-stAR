@@ -52,7 +52,9 @@ def main():
         error_trap.append(eps_a)
         delta_t += np.round(t[i+1] - t[i], decimals = 2)
         int_trap.append(delta_t)
+
     print(f"Trapezoid Integral Estimate: {Itrap}")
+    print(f"Check Trap: {integrate_newton(t, v)}")
     # integral and approx error variables for simp rule
     Isimp = 0.0
     error_simp = []
@@ -64,6 +66,7 @@ def main():
         Isimp += segment
         eps_a = np.abs(segment / Isimp)
         error_simp.append(eps_a)
+        #delta_t += np.round(t[i+4] - t[i], decimals = 2)
         delta_t += np.round(t[i+1] - t[i], decimals = 2)
         int_simp.append(delta_t)
 
