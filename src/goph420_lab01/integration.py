@@ -143,8 +143,3 @@ def integrate_gauss(f, lims, npts = 3):
     integral = np.sum(np.array(w_k) * np.array(f_k))
     
     return integral
-
-
-def normal_density(x, mu, sigma):
-    f = 1 / (sigma * np.sqrt(2 * np.pi)) * np.exp(-0.5 * ((x - mu) ** 2 / (sigma ** 2)))
-    return f

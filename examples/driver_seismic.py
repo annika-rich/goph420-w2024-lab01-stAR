@@ -19,7 +19,7 @@ def main():
             int_limit = i
 
     print(f"Integration Index Limit = {int_limit}")
-    print(f"0.5% of max event velocity (mm/s) = {v_end}\nTime at end of interval = {t[int_limit]}\n")
+    print(f"0.5% of max event velocity (mm/s) = {v_end}\nEvent Period (T) = {t[int_limit]}\n")
 
     # plot raw data
     plt.plot(t, v, 'k-', label = 'S-Wave Arrivals', linewidth = 0.7)
