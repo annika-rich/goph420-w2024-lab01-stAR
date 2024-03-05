@@ -38,101 +38,66 @@ def main():
     t = t[:int_limit] # slice list to selected event period
     v = v[:int_limit]
 
+    steps = [1, 2, 4, 8, 16, 32]
+
     # initialize integral and approx error variables for trapezoid rule
-    Itrap = 0.0
-    segment = 0.0
-    error_trap = []
     int_trap = []
-    delta_t = 0.0
-
-    for i in range(len(t) - 1):
-        segment = integrate_newton(t[i:i+2], v[i:i+2], alg= "trap")
-        Itrap += segment
-        eps_a = np.abs(segment / Itrap)
-        error_trap.append(eps_a)
-        delta_t += np.round(t[i+1] - t[i], decimals = 2)
-        int_trap.append(delta_t)
-
-    print(f"Trapezoid Integral Estimate (sampling interval {np.round(t[i+1] - t[i], decimals = 2)}s): {1 / T * Itrap}\n")
-    #print(f"Check Trap: {integrate_newton(t, v)}")
-
-    # integral and approx error variables for simp rule
-    Isimp = 0.0
-    error_simp = []
     int_simp = []
-    delta_t = 0.0
 
-    for i in range(0,len(t) - 2, 4):
-        segment = integrate_newton(t[i:i+5], v[i:i+5], alg= "simp")
-        Isimp += segment
-        eps_a = np.abs(segment / Isimp)
-        error_simp.append(eps_a)
-        #delta_t += np.round(t[i+4] - t[i], decimals = 2)
-        delta_t += np.round(t[i+1] - t[i], decimals = 2)
-        int_simp.append(delta_t)
+    for step in steps:
+        Itrap = integrate_newton(t[::step], v[::step], alg= "trap")
+        Isimp = integrate_newton(t[::step], v[::step], alg= "simp")
+        int_trap.append(Itrap)
+        int_simp.append(Isimp)
 
-    print(f"Simpson's Integral Estimate (sampling interval {np.round(t[i+1] - t[i], decimals = 2)}s): {1/T * Isimp}\n")
-    #print(f"Check Simp: {integrate_newton(t, v, alg = "simp")}")
-    
+    eps_trap = np.abs(np.diff(int_trap)) / int_trap[:-1]
+    eps_simp = np.abs(np.diff(int_simp) / int_simp[:-1])
 
-    plt.figure(figsize=(16, 16))
-    plt.loglog(int_trap, error_trap, label = 'trapezoid rule')
-    plt.loglog(int_simp, error_simp, label = 'simpson\'s rule')
+    #plt.figure(figsize=(16, 16))
+    plt.loglog(steps[1:], eps_trap, label = 'trapezoid rule')
+    plt.loglog(steps[1:], eps_simp, label = 'simpson\'s rule')
     plt.legend()
     plt.ylabel('Approximate Relative Error (' + r'$\epsilon$' + 'a)')
     plt.title('Error Convergence')
-    plt.xlabel('Sampling Interval (' + r'$\Delta$' + 't)')
+    plt.xlabel('Stepsize/Sampling Interval (' + r'$\Delta$' + 't)')
     plt.savefig('figures/error_convergence.png')
     plt.close('all')
 
-     # use a different sampling interval (0.02)
-    t2 = t[::2]
-    v2 = v[::2]
+    print(f"Downsampled Trapezoid Integral Estimates for stepsizes {steps}: \n{1 / T * np.array(int_trap)}\n")
+    print(f"Downsampled Simpson's Integral Estimate for stepsizes {steps}: \n{1/T * np.array(int_simp)}\n")
+
+    # integration using the trapezoid rule, and simpson's 1/3 and 3/8 rules
+    t = t[:int_limit:2]
+    v = v[:int_limit:2]
+
+    steps = [1, 2, 4, 8, 16, 32]
 
     # initialize integral and approx error variables for trapezoid rule
-    Itrap = 0.0
-    segment = 0.0
-    error_trap = []
     int_trap = []
-    delta_t = 0.0
-
-    for i in range(len(t2) - 1):
-        segment = integrate_newton(t2[i:i+2], v2[i:i+2], alg= "trap")
-        Itrap += segment
-        eps_a = np.abs(segment / Itrap)
-        error_trap.append(eps_a)
-        delta_t += np.round(t2[i+1] - t2[i], decimals = 2)
-        int_trap.append(delta_t)
-
-    print(f"Trapezoid Integral Estimate (sampling interval {np.round(t2[i+1] - t2[i], decimals = 2)}s): {1 / T * Itrap}\n")
-    # print(f"Check Trap: {integrate_newton(t2, v2)}")
-
-    # integral and approx error variables for simp rule
-    Isimp = 0.0
-    error_simp = []
     int_simp = []
-    delta_t = 0.0
 
-    for i in range(0,len(t2) - 2, 4):
-        segment = integrate_newton(t2[i:i+5], v2[i:i+5], alg= "simp")
-        Isimp += segment
-        eps_a = np.abs(segment / Isimp)
-        error_simp.append(eps_a)
-        #delta_t += np.round(t[i+4] - t[i], decimals = 2)
-        delta_t += np.round(t2[i+1] - t2[i], decimals = 2)
-        int_simp.append(delta_t)
+    for step in steps:
+        Itrap = integrate_newton(t[::step], v[::step], alg= "trap")
+        Isimp = integrate_newton(t[::step], v[::step], alg= "simp")
+        int_trap.append(Itrap)
+        int_simp.append(Isimp)
 
-    print(f"Simpson's Integral Estimate (sampling interval {np.round(t2[i+1] - t2[i], decimals = 2)}s): {1 / T * Isimp}\n")
-    #print(f"Check Simp: {integrate_newton(t2, v2, alg = "simp")}")
+    eps_trap = np.abs(np.diff(int_trap)) / int_trap[:-1]
+    eps_simp = np.abs(np.diff(int_simp) / int_simp[:-1])
 
-    plt.figure(figsize=(16, 16))
-    plt.loglog(int_trap, error_trap, 'c', label = 'trapezoid rule')
-    plt.loglog(int_simp, error_simp, 'k', label = 'simpson\'s rule')
+    #plt.figure(figsize=(16, 16))
+    plt.loglog(steps[1:], eps_trap, 'c', label = 'trapezoid rule')
+    plt.loglog(steps[1:], eps_simp, 'k', label = 'simpson\'s rule')
     plt.legend()
     plt.ylabel('Approximate Relative Error (' + r'$\epsilon$' + 'a)')
-    plt.title('Downsampled Error Convergence')
-    plt.xlabel('Sampling Interval (' + r'$\Delta$' + 't)')
+    plt.title('Error Convergence (Downsampled Data)')
+    plt.xlabel('Stepsize/Sampling Interval (' + r'$\Delta$' + 't)')
     plt.savefig('figures/error_convergence_downsampled.png')
+    plt.close('all')
+
+    print(f"Trapezoid Integral Estimates for stepsizes {steps}: \n{1 / T * np.array(int_trap)}\n")
+    print(f"Simpson's Integral Estimate for stepsizes {steps}: \n{1/T * np.array(int_simp)}\n")
+    
 
 
 if __name__ == '__main__':
