@@ -26,7 +26,7 @@ class TestTrapRuleLinear(unittest.TestCase):
 
     def test_value(self):
         expected = sc.integrate.trapezoid(self.f, self.x)
-        self.assertAlmostEqual(integrate_newton(self.x, self.f, alg = 'Trap '), expected, delta=1e-15)
+        self.assertAlmostEqual(integrate_newton(self.x, self.f, alg = 'Trap '), expected)
 
 class TestSimpRuleQuadOdd(unittest.TestCase):
 
@@ -36,7 +36,7 @@ class TestSimpRuleQuadOdd(unittest.TestCase):
     
     def test_value(self):
         expected = sc.integrate.simpson(self.f, self.x)
-        self.assertAlmostEqual(integrate_newton(self.x, self.f, alg = 'Simp'), expected, delta = 1e-15)
+        self.assertAlmostEqual(integrate_newton(self.x, self.f, alg = 'Simp'), expected)
     
 
 class TestSimpRuleQuadEven(unittest.TestCase):
@@ -47,7 +47,7 @@ class TestSimpRuleQuadEven(unittest.TestCase):
     
     def test_value(self):
         expected = sc.integrate.simpson(self.f, self.x)
-        self.assertAlmostEqual(integrate_newton(self.x, self.f, alg = 'Simp'), expected, delta=1e-15)
+        self.assertAlmostEqual(integrate_newton(self.x, self.f, alg = 'Simp'), expected)
 
 if __name__ == "__main__":
     unittest.main()

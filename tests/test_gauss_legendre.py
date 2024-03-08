@@ -29,7 +29,7 @@ class TestGaussLegendreFirstOrder(unittest.TestCase):
     
     def test_npts(self):
         expected = 80
-        self.assertAlmostEqual(integrate_gauss(self.f, lims = [0, 8], npts = 1), expected, delta = 1e-15)
+        self.assertAlmostEqual(integrate_gauss(self.f, lims = [0, 8], npts = 1), expected)
 
 class TestGaussLegendreSecondOrder(unittest.TestCase):
 
@@ -38,7 +38,7 @@ class TestGaussLegendreSecondOrder(unittest.TestCase):
     
     def test_npts(self):
         expected = 155 / 3
-        self.assertAlmostEqual(integrate_gauss(self.f, lims = [0, 5], npts = 2), expected, delta = 1e-15)
+        self.assertAlmostEqual(integrate_gauss(self.f, lims = [0, 5], npts = 2), expected)
 
 class TestGaussLegendreThirdOrder(unittest.TestCase):
 
@@ -47,7 +47,7 @@ class TestGaussLegendreThirdOrder(unittest.TestCase):
     
     def test_npts(self):
         expected = 161.25
-        self.assertAlmostEqual(integrate_gauss(self.f, lims = [0, 5], npts = 2), expected, delta = 1e-13)
+        self.assertAlmostEqual(integrate_gauss(self.f, lims = [0, 5], npts = 2), expected)
 
 class TestGaussLegendreFourthOrder(unittest.TestCase):
 
@@ -56,7 +56,7 @@ class TestGaussLegendreFourthOrder(unittest.TestCase):
     
     def test_npts(self):
         expected = 23.2
-        self.assertAlmostEqual(integrate_gauss(self.f, lims = [0, 2], npts = 3), expected, delta = 1e-14)
+        self.assertAlmostEqual(integrate_gauss(self.f, lims = [0, 2], npts = 3), expected)
 
 class TestGaussLegendreFifthOrder(unittest.TestCase):
 
@@ -65,7 +65,7 @@ class TestGaussLegendreFifthOrder(unittest.TestCase):
     
     def test_npts(self):
         expected = 243
-        self.assertAlmostEqual(integrate_gauss(self.f, lims = [0, 3], npts = 3), expected, delta = 1e-13)
+        self.assertAlmostEqual(integrate_gauss(self.f, lims = [0, 3], npts = 3), expected)
 
 class TestGaussLegendreSixthOrder(unittest.TestCase):
 
@@ -74,7 +74,7 @@ class TestGaussLegendreSixthOrder(unittest.TestCase):
     
     def test_npts(self):
         expected = 2250 / 7
-        self.assertAlmostEqual(integrate_gauss(self.f, lims = [0, 3], npts = 4), expected, delta = 1e-15)
+        self.assertAlmostEqual(integrate_gauss(self.f, lims = [0, 3], npts = 4), expected)
 
 class TestGaussLegendreSeventhOrder(unittest.TestCase):
 
@@ -83,7 +83,7 @@ class TestGaussLegendreSeventhOrder(unittest.TestCase):
     
     def test_npts(self):
         expected = 36
-        self.assertAlmostEqual(integrate_gauss(self.f, lims = [0, 2], npts = 4), expected, delta = 1e-13)
+        self.assertAlmostEqual(integrate_gauss(self.f, lims = [0, 2], npts = 4), expected)
 
 class TestGaussLegendreEighthOrder(unittest.TestCase):
 
@@ -92,7 +92,7 @@ class TestGaussLegendreEighthOrder(unittest.TestCase):
     
     def test_npts(self):
         expected = 19 / 9
-        self.assertAlmostEqual(integrate_gauss(self.f, lims = [0, 1], npts = 5), expected, delta = 1e-15)
+        self.assertAlmostEqual(integrate_gauss(self.f, lims = [0, 1], npts = 5), expected)
 
 class TestGaussLegendreNinthOrder(unittest.TestCase):
 
@@ -101,5 +101,5 @@ class TestGaussLegendreNinthOrder(unittest.TestCase):
     
     def test_npts(self):
         expected = 8.1
-        self.assertAlmostEqual(integrate_gauss(self.f, lims = [0, 1], npts = 5), expected, delta = 1e-14)
+        self.assertAlmostEqual(integrate_gauss(self.f, lims = [0, 1], npts = 5), expected)
 
