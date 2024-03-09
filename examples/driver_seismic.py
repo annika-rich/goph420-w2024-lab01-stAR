@@ -39,7 +39,8 @@ def main():
     v = v[:int_limit]
 
     steps = [1, 2, 4, 8, 16, 32]
-
+    stepsize = np.array(steps) * 0.01
+    
     # initialize integral and approx error variables for trapezoid rule
     int_trap = []
     int_simp = []
@@ -54,8 +55,8 @@ def main():
     eps_simp = np.abs(np.diff(int_simp) / int_simp[:-1])
 
     #plt.figure(figsize=(16, 16))
-    plt.loglog(steps[1:], eps_trap, label = 'trapezoid rule')
-    plt.loglog(steps[1:], eps_simp, label = 'simpson\'s rule')
+    plt.loglog(stepsize[:-1], eps_trap, label = 'trapezoid rule')
+    plt.loglog(stepsize[:-1], eps_simp, label = 'simpson\'s rule')
     plt.legend()
     plt.ylabel('Approximate Relative Error (' + r'$\epsilon$' + 'a)')
     plt.title('Error Convergence')
@@ -70,8 +71,6 @@ def main():
     t = t[:int_limit:2]
     v = v[:int_limit:2]
 
-    steps = [1, 2, 4, 8, 16, 32]
-
     # initialize integral and approx error variables for trapezoid rule
     int_trap = []
     int_simp = []
@@ -86,8 +85,8 @@ def main():
     eps_simp = np.abs(np.diff(int_simp) / int_simp[:-1])
 
     #plt.figure(figsize=(16, 16))
-    plt.loglog(steps[1:], eps_trap, 'c', label = 'trapezoid rule')
-    plt.loglog(steps[1:], eps_simp, 'k', label = 'simpson\'s rule')
+    plt.loglog(stepsize[:-1], eps_trap, 'c', label = 'trapezoid rule')
+    plt.loglog(stepsize[:-1], eps_simp, 'k', label = 'simpson\'s rule')
     plt.legend()
     plt.ylabel('Approximate Relative Error (' + r'$\epsilon$' + 'a)')
     plt.title('Error Convergence (Downsampled Data)')
