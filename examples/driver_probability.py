@@ -47,7 +47,7 @@ def main():
         error.append(eps_a)
         I_old = I_z
 
-    print(f"Confidence Interval Probability that length (L) falls between 10. 25 - 10.23 m using npts {npts}: \n{2 * np.array(conv_ints)}")
+    print(f"Confidence Interval Probability that length (L) falls between 10. 25 - 10.35 m using npts {npts}: \n{2 * np.array(conv_ints)}")
 
     plt.loglog(npts, error, 'k')
     plt.title('P(10.25 <= L <= 10.35) for Length (L)')

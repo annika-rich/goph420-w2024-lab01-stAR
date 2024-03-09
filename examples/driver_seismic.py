@@ -64,8 +64,8 @@ def main():
     plt.savefig('figures/error_convergence.png')
     plt.close('all')
 
-    print(f"Downsampled Trapezoid Integral Estimates for stepsizes {steps}: \n{1 / T * np.array(int_trap)}\n")
-    print(f"Downsampled Simpson's Integral Estimate for stepsizes {steps}: \n{1/T * np.array(int_simp)}\n")
+    print(f"Downsampled Trapezoid Integral Estimates for stepsizes {stepsize}: \n{1 / T * np.array(int_trap)}\n")
+    print(f"Downsampled Simpson's Integral Estimate for stepsizes {stepsize}: \n{1/T * np.array(int_simp)}\n")
 
     # integration using the trapezoid rule, and simpson's 1/3 and 3/8 rules
     t = t[:int_limit:2]
@@ -94,8 +94,8 @@ def main():
     plt.savefig('figures/error_convergence_downsampled.png')
     plt.close('all')
 
-    print(f"Trapezoid Integral Estimates for stepsizes {steps}: \n{1 / T * np.array(int_trap)}\n")
-    print(f"Simpson's Integral Estimate for stepsizes {steps}: \n{1/T * np.array(int_simp)}\n")
+    print(f"Trapezoid Integral Estimates for stepsizes {stepsize}: \n{1 / T * np.array(int_trap)}\n")
+    print(f"Simpson's Integral Estimate for stepsizes {stepsize}: \n{1/T * np.array(int_simp)}\n")
     
 
 
