@@ -22,7 +22,7 @@ def main():
         error.append(eps_a)
         I_old = I_z
     
-    print(f"Exceedance Probability of a seismic event with M> 4.0 for npts {npts}: \n{0.5 - np.array(conv_ints)}\n")
+    print(f"Exceedance Probability of a seismic event with M > 4.0 for npts {npts}: \n{0.5 - np.array(conv_ints)}\n")
 
     plt.loglog(npts, error, 'r')
     plt.title('P(M >= 4) for a Seismic Event')
@@ -47,7 +47,7 @@ def main():
         error.append(eps_a)
         I_old = I_z
 
-    print(f"Confidence Interval Probability that length (L) falls between 10. 25 - 10.35 m using npts {npts}: \n{2 * np.array(conv_ints)}")
+    print(f"Confidence Interval Probability that length (L) falls between 10. 25 - 10.35 m using npts {npts}: \n{(conv_ints)}")
 
     plt.loglog(npts, error, 'k')
     plt.title('P(10.25 <= L <= 10.35) for Length (L)')

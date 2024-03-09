@@ -64,39 +64,8 @@ def main():
     plt.savefig('figures/error_convergence.png')
     plt.close('all')
 
-    print(f"Downsampled Trapezoid Integral Estimates for stepsizes {stepsize}: \n{1 / T * np.array(int_trap)}\n")
-    print(f"Downsampled Simpson's Integral Estimate for stepsizes {stepsize}: \n{1/T * np.array(int_simp)}\n")
-
-    # integration using the trapezoid rule, and simpson's 1/3 and 3/8 rules
-    t = t[:int_limit:2]
-    v = v[:int_limit:2]
-
-    # initialize integral and approx error variables for trapezoid rule
-    int_trap = []
-    int_simp = []
-
-    for step in steps:
-        Itrap = integrate_newton(t[::step], v[::step], alg= "trap")
-        Isimp = integrate_newton(t[::step], v[::step], alg= "simp")
-        int_trap.append(Itrap)
-        int_simp.append(Isimp)
-
-    eps_trap = np.abs(np.diff(int_trap)) / int_trap[:-1]
-    eps_simp = np.abs(np.diff(int_simp) / int_simp[:-1])
-
-    #plt.figure(figsize=(16, 16))
-    plt.loglog(stepsize[:-1], eps_trap, 'c', label = 'trapezoid rule')
-    plt.loglog(stepsize[:-1], eps_simp, 'k', label = 'simpson\'s rule')
-    plt.legend()
-    plt.ylabel('Approximate Relative Error (' + r'$\epsilon$' + 'a)')
-    plt.title('Error Convergence (Downsampled Data)')
-    plt.xlabel('Stepsize/Sampling Interval (' + r'$\Delta$' + 't)')
-    plt.savefig('figures/error_convergence_downsampled.png')
-    plt.close('all')
-
     print(f"Trapezoid Integral Estimates for stepsizes {stepsize}: \n{1 / T * np.array(int_trap)}\n")
     print(f"Simpson's Integral Estimate for stepsizes {stepsize}: \n{1/T * np.array(int_simp)}\n")
-    
 
 
 if __name__ == '__main__':
