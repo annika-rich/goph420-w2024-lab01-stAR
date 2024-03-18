@@ -36,9 +36,9 @@ def main():
     # integration using the trapezoid rule, and simpson's 1/3 and 3/8 rules
     T = t[int_limit] # determine length of event (period)
     t = t[:int_limit] # slice list to selected event period
-    v = v[:int_limit]
+    v = (v[:int_limit]) ** 2
 
-    steps = [1, 2, 4, 8, 16, 32]
+    steps = [1, 2, 4, 8, 16, 32, 64, 128, 256]
     stepsize = np.array(steps) * 0.01
     
     # initialize integral and approx error variables for trapezoid rule
@@ -60,7 +60,7 @@ def main():
     plt.legend()
     plt.ylabel('Approximate Relative Error (' + r'$\epsilon$' + 'a)')
     plt.title('Error Convergence')
-    plt.xlabel('Stepsize/Sampling Interval (' + r'$\Delta$' + 't)')
+    plt.xlabel('Sampling Interval (' + r'$\Delta$' + 't)')
     plt.savefig('figures/error_convergence.png')
     plt.close('all')
 
