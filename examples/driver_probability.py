@@ -39,7 +39,7 @@ def main():
     error = []
     I_old = 0.0
 
-    # compute confidence interval
+    # compute confidence interval (NEEDED TO IMPLEMENT TRUNCATION ERROR EQUATION...)
     for i in npts:
         I_z = integrate_gauss(f, lims = [10.25, 10.35], npts=i)
         eps_a = np.abs((I_z - I_old) / I_z)
